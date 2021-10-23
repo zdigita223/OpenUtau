@@ -8,12 +8,26 @@
     <ApplicationIcon>Assets\open-utau.ico</ApplicationIcon>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <CFBundleName>OpenUtau</CFBundleName>
+    <CFBundleDisplayName>OpenUtau</CFBundleDisplayName>
+    <CFBundleIdentifier>com.stakira.openutau</CFBundleIdentifier>
+    <CFBundleVersion>0.1.0</CFBundleVersion>
+    <CFBundleShortVersionString>0.1.0</CFBundleShortVersionString>
+    <CFBundlePackageType>APPL</CFBundlePackageType>
+    <CFBundleSignature>????</CFBundleSignature>
+    <CFBundleExecutable>OpenUtau</CFBundleExecutable>
+    <CFBundleIconFile>OpenUtau.icns</CFBundleIconFile>
+    <NSPrincipalClass>NSApplication</NSPrincipalClass>
+    <NSHighResolutionCapable>true</NSHighResolutionCapable>
+  </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.8" />
     <PackageReference Include="Avalonia.Direct2D1" Version="0.10.8" />
+    <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
     <PackageReference Include="ReactiveUI.Fody" Version="13.2.10" />
     <PackageReference Include="System.IO.Packaging" Version="5.0.0" />
     <PackageReference Include="Avalonia" Version="0.10.8" />
@@ -32,8 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\libs\**" CopyToOutputDirectory="PreserveNewest" LinkBase="libs\" />
+    <None Include="Assets\OpenUtau.icns" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="(if not exist $(OutDir)Plugins mkdir $(OutDir)Plugins) &amp;&amp; (copy /y $(OutDir)OpenUtau.Plugin.Builtin.dll $(OutDir)Plugins\)" />
-  </Target>
 </Project>

@@ -68,7 +68,17 @@ namespace OpenUtau.Core {
             phonemizerFactories.Add(PhonemizerFactory.Get(typeof(DefaultPhonemizer)));
             var transformerFactories = new List<TransformerFactory>();
             Directory.CreateDirectory(PathManager.Inst.PluginsPath);
-            foreach (var file in Directory.EnumerateFiles(PathManager.Inst.PluginsPath, "*.dll", SearchOption.AllDirectories)) {
+            var dir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            SearchDlls(dir, "*Plugin*.dll", phonemizerFactories, transformerFactories);
+            SearchDlls(PathManager.Inst.PluginsPath, "*.dll", phonemizerFactories, transformerFactories);
+            PhonemizerFactories = phonemizerFactories.ToArray();
+            TransformerFactories = transformerFactories.ToArray();
+            stopWatch.Stop();
+            Log.Information($"Search all plugins: {stopWatch.Elapsed}");
+        }
+
+        private void SearchDlls(string dir, string pattern, List<PhonemizerFactory> phonemizerFactories, List<TransformerFactory> transformerFactories) {
+            foreach (var file in Directory.EnumerateFiles(dir, pattern, SearchOption.AllDirectories)) {
                 Assembly assembly;
                 try {
                     assembly = Assembly.LoadFile(file);
@@ -87,10 +97,6 @@ namespace OpenUtau.Core {
                     continue;
                 }
             }
-            PhonemizerFactories = phonemizerFactories.ToArray();
-            TransformerFactories = transformerFactories.ToArray();
-            stopWatch.Stop();
-            Log.Information($"Search all plugins: {stopWatch.Elapsed}");
         }
 
         #region Command Queue
